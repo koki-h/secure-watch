@@ -1,6 +1,6 @@
 #!/bin/bash
 # chkconfig: 345 98 20
-# description: Watch secure log and notify when the accepted password login.
+# description: Watch secure log and notify when the server accepted password login.
 # processname: secure_watch
 
 
