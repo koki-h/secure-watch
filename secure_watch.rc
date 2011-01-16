@@ -1,0 +1,36 @@
+#!/bin/bash
+# chkconfig: 345 98 20
+# description: Watch secure log and notify when the accepted password login.
+# processname: secure_watch
+
+
+. /etc/rc.d/init.d/functions
+
+secure_watch="/home/koki/projects/secure_watch/secure_watch.rb&"
+prog=secure_watch
+pidfile=${PIDFILE-/var/run/secure_watch.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/secure_watch}
+RETVAL=0
+start() {
+    echo -n "Launching $prog:"
+    daemon --pidfile=${pidfile} $secure_watch $OPTIONS
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && touch ${lockfile}
+    return $RETVAL
+}
+stop() {
+	echo -n $"Stopping $prog: "
+	killproc -p ${pidfile} -d 10 $secure_watch
+	RETVAL=$?
+	echo
+	[ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
+}
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+esac
