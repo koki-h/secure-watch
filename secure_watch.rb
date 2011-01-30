@@ -8,22 +8,21 @@ $filename = "/var/log/secure"
 $current_dir = File.dirname(File.expand_path(__FILE__))
 $config = eval(`cat #{$current_dir}/config`)
 #config format
-#{:mail_username => 'user',
-# :mail_password => 'pass'}
+# see : config.sample
 
 def mail(message)
-  Pony.mail(:to   => 'gohannnotomo@gmail.com',
+  Pony.mail(:to   => $config[:mail_to],
             :body => message,
-            :subject => "[warning]serversman.gohannnotomo.org accepted password!",
+            :subject => $config[:mail_subject],
             :via  => :smtp, 
             :via_options => {
-    :enable_starttls_auto => true,            #TLSを使う
-    :address              => 'smtp.gmail.com',
-    :port                 => '587',
+    :enable_starttls_auto => $config[:tls_enable],
+    :address              => $config[:smtp_host],
+    :port                 => $config[:smtp_port],
     :user_name            => $config[:mail_username],
     :password             => $config[:mail_password],
-    :authenticaiotn       => :plain,          # gmailでは:plainでないとダメ
-    :domain               => "gmail.com"      # smtp.gmail.comでもOK 
+    :authenticaiotn       => $config[:mail_auth],
+    :domain               => $config[:domain],
   })
 end
 
