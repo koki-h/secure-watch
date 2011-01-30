@@ -1,0 +1,11 @@
+{
+    :mail_to      => 'xxxxxxxxxxxxx@example.com',
+    :mail_subject => "[warning]your server accepted password!",
+    :tls_enable    => true,              #TLSを使う
+    :smtp_host     => 'smtp.gmail.com',
+    :smtp_port     => '587',
+    :mail_username => 'mailuser',
+    :mail_password => 'mailpass',
+    :mail_auth     => :plain,         # gmailでは:plainでないとダメ
+    :domain        => "gmail.com",    # smtp.gmail.comでもOK 
+}
